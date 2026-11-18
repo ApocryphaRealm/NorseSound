@@ -8,3 +8,6 @@
 
 ### Known (2026-11-18)
 - A swapped-in sound can be freed at a map change (the root set does not hold it); Hit passed only because another rule also uses that sound. Fix pending: re-check written references at each map load (to-do list).
+
+### Changed (2026-11-18, refinement)
+- Writes into game data are recorded and re-imported at each map load when their assets are no longer loaded (NorseReflect RecordWrite/RecheckWrites) - a safety net; the freeing it guards against was seen once and did not repeat in testing.

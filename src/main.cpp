@@ -239,6 +239,7 @@ namespace
                         return;
                     }
                     ++fields;
+                    RecordWrite(o, p, addr, now, ShortName(PathOfObj(o)) + L"." + std::wstring(p->GetName()));
                     refs += hits;
                     NRN_INFO("swapped %d reference(s) in %s.%s", hits, Narrow(ShortName(PathOfObj(o))).c_str(), Narrow(p->GetName()).c_str());
                 });
@@ -435,6 +436,7 @@ class NorseSound : public RC::CppUserModBase
                 CompileConditions(); // NorseConditions may have loaded after this mod
                 try
                 {
+                    RecheckWrites("map load"); // before the pass: it exports first, and a freed pointer would fault
                     ApplySwaps("map load");
                 }
                 catch (...)
