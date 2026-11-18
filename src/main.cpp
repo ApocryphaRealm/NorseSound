@@ -80,6 +80,7 @@ namespace
     using NcEvalFn = int (*)(int, void*, void*);
     NcCompileFn g_ncCompile = nullptr;
     NcEvalFn g_ncEval = nullptr;
+    bool g_mapUp = false; // set at the first map load; conditions are compiled from then on
 
     template <typename F>
     F ModExport(const wchar_t* mod, const char* name)
@@ -179,7 +180,7 @@ namespace
                           return !act || r.on.empty(); // a swap-only section keeps its swaps in g_swaps
                       }),
                       g_rules.end());
-        CompileConditions();
+        if (g_mapUp) CompileConditions(); // not at start-up: NorseConditions may not have registered its conditions yet (NorseAnimSwap 0.1.0)
         NRN_INFO("sound rules: %zu swap(s), %zu music rule(s) from %zu file(s)", g_swaps.size(), g_rules.size(), files.size());
     }
 
@@ -432,6 +433,7 @@ class NorseSound : public RC::CppUserModBase
         try
         {
             RC::Unreal::Hook::RegisterInitGameStatePostCallback([](RC::Unreal::AGameModeBase*) {
+                g_mapUp = true;
                 Subscribe();
                 CompileConditions(); // NorseConditions may have loaded after this mod
                 try
