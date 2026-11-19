@@ -29,3 +29,7 @@ Author guide: `package\sounds\README.txt`; tested rules: `docs\examples\`. Conso
 
 0.1.0 tested in game (TEST-RESULT-0.1.0.txt). Not yet: hearing a swapped sound in a real hit, State and Stinger, a
 real mission's music.
+
+## Licence
+
+GPL-3.0-or-later (see LICENSE).
